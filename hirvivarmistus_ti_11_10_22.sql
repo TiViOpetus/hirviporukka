@@ -5,7 +5,7 @@
 -- Dumped from database version 14.5
 -- Dumped by pg_dump version 14.5
 
--- Started on 2022-10-11 15:09:41
+-- Started on 2022-10-12 09:17:11
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -684,10 +684,8 @@ ALTER TABLE ONLY public.seurue ALTER COLUMN seurue_id SET DEFAULT nextval('publi
 -- Data for Name: aikuinenvasa; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.aikuinenvasa (ikaluokka) FROM stdin;
-Aikuinen
-Vasa
-\.
+INSERT INTO public.aikuinenvasa VALUES ('Aikuinen');
+INSERT INTO public.aikuinenvasa VALUES ('Vasa');
 
 
 --
@@ -696,10 +694,8 @@ Vasa
 -- Data for Name: elain; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.elain (elaimen_nimi) FROM stdin;
-Hirvi
-Valkoh‰nt‰peura
-\.
+INSERT INTO public.elain VALUES ('Hirvi');
+INSERT INTO public.elain VALUES ('Valkoh‰nt‰peura');
 
 
 --
@@ -708,11 +704,9 @@ Valkoh‰nt‰peura
 -- Data for Name: jakoryhma; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.jakoryhma (ryhma_id, seurue_id, ryhman_nimi) FROM stdin;
-1	1	Ryhm‰ 1
-2	1	Ryhm‰ 2
-3	2	Ryhm‰ 3
-\.
+INSERT INTO public.jakoryhma VALUES (1, 1, 'Ryhm‰ 1');
+INSERT INTO public.jakoryhma VALUES (2, 1, 'Ryhm‰ 2');
+INSERT INTO public.jakoryhma VALUES (3, 2, 'Ryhm‰ 3');
 
 
 --
@@ -721,11 +715,9 @@ COPY public.jakoryhma (ryhma_id, seurue_id, ryhman_nimi) FROM stdin;
 -- Data for Name: jakotapahtuma; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.jakotapahtuma (tapahtuma_id, paiva, ryhma_id, osnimitys, maara, kaato_id) FROM stdin;
-1	2022-10-05	1	Koko	210	\N
-2	2022-10-02	1	Puolikas	75	\N
-3	2022-10-02	2	Puolikas	75	\N
-\.
+INSERT INTO public.jakotapahtuma VALUES (1, '2022-10-05', 1, 'Koko', 210, NULL);
+INSERT INTO public.jakotapahtuma VALUES (2, '2022-10-02', 1, 'Puolikas', 75, NULL);
+INSERT INTO public.jakotapahtuma VALUES (3, '2022-10-02', 2, 'Puolikas', 75, NULL);
 
 
 --
@@ -734,18 +726,16 @@ COPY public.jakotapahtuma (tapahtuma_id, paiva, ryhma_id, osnimitys, maara, kaat
 -- Data for Name: jasen; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.jasen (jasen_id, etunimi, sukunimi, jakeluosoite, postinumero, postitoimipaikka) FROM stdin;
-1	Janne	Jousi	Kotikatu 2	21200	Raisio
-2	Tauno	Tappara	Viertotie 5	23100	Myn‰m‰ki
-3	Kalle	Kaaripyssy	Isotie 144	23100	Myn‰m‰ki
-4	Heikki	Haulikko	Pikkutie 22	23100	Myn‰m‰ki
-5	Tauno	Tussari	Isotie 210	23100	Myn‰m‰ki
-6	Piia	Pyssy	Jokikatu 2	23100	Myn‰m‰ki
-7	Tiina	Talikko	Kirkkotie 7	23100	Myn‰m‰ki
-8	Bertil	Bˆssa	Hemv‰g 4	20100	≈bo
-9	Ville	Vesuri	Jokikatu 2	23100	Myn‰m‰ki
-10	Kurt	Kirves	Pohjanperkontie 122	23100	Myn‰m‰ki
-\.
+INSERT INTO public.jasen VALUES (1, 'Janne', 'Jousi', 'Kotikatu 2', '21200', 'Raisio');
+INSERT INTO public.jasen VALUES (2, 'Tauno', 'Tappara', 'Viertotie 5', '23100', 'Myn‰m‰ki');
+INSERT INTO public.jasen VALUES (3, 'Kalle', 'Kaaripyssy', 'Isotie 144', '23100', 'Myn‰m‰ki');
+INSERT INTO public.jasen VALUES (4, 'Heikki', 'Haulikko', 'Pikkutie 22', '23100', 'Myn‰m‰ki');
+INSERT INTO public.jasen VALUES (5, 'Tauno', 'Tussari', 'Isotie 210', '23100', 'Myn‰m‰ki');
+INSERT INTO public.jasen VALUES (6, 'Piia', 'Pyssy', 'Jokikatu 2', '23100', 'Myn‰m‰ki');
+INSERT INTO public.jasen VALUES (7, 'Tiina', 'Talikko', 'Kirkkotie 7', '23100', 'Myn‰m‰ki');
+INSERT INTO public.jasen VALUES (8, 'Bertil', 'Bˆssa', 'Hemv‰g 4', '20100', '≈bo');
+INSERT INTO public.jasen VALUES (9, 'Ville', 'Vesuri', 'Jokikatu 2', '23100', 'Myn‰m‰ki');
+INSERT INTO public.jasen VALUES (10, 'Kurt', 'Kirves', 'Pohjanperkontie 122', '23100', 'Myn‰m‰ki');
 
 
 --
@@ -754,16 +744,14 @@ COPY public.jasen (jasen_id, etunimi, sukunimi, jakeluosoite, postinumero, posti
 -- Data for Name: jasenyys; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.jasenyys (jasenyys_id, ryhma_id, jasen_id, liittyi, poistui, osuus) FROM stdin;
-1	1	1	2022-01-01	\N	100
-2	1	2	2022-01-01	\N	100
-3	1	3	2022-01-01	\N	100
-4	2	4	2022-01-01	\N	100
-6	2	6	2022-01-01	\N	100
-7	3	7	2022-01-01	\N	100
-8	3	8	2022-01-01	\N	100
-9	3	9	2022-01-01	\N	50
-\.
+INSERT INTO public.jasenyys VALUES (1, 1, 1, '2022-01-01', NULL, 100);
+INSERT INTO public.jasenyys VALUES (2, 1, 2, '2022-01-01', NULL, 100);
+INSERT INTO public.jasenyys VALUES (3, 1, 3, '2022-01-01', NULL, 100);
+INSERT INTO public.jasenyys VALUES (4, 2, 4, '2022-01-01', NULL, 100);
+INSERT INTO public.jasenyys VALUES (6, 2, 6, '2022-01-01', NULL, 100);
+INSERT INTO public.jasenyys VALUES (7, 3, 7, '2022-01-01', NULL, 100);
+INSERT INTO public.jasenyys VALUES (8, 3, 8, '2022-01-01', NULL, 100);
+INSERT INTO public.jasenyys VALUES (9, 3, 9, '2022-01-01', NULL, 50);
 
 
 --
@@ -772,10 +760,8 @@ COPY public.jasenyys (jasenyys_id, ryhma_id, jasen_id, liittyi, poistui, osuus) 
 -- Data for Name: kaato; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.kaato (kaato_id, jasen_id, kaatopaiva, ruhopaino, paikka_teksti, paikka_koordinaatti, kasittelyid, elaimen_nimi, sukupuoli, ikaluokka) FROM stdin;
-1	5	2022-09-28	250	Takapellon etel‰p‰‰, Jyrkk‰l‰	61.58,21.54	1	Hirvi	Uros	Aikuinen
-2	6	2022-09-28	200	Takapellon etel‰p‰‰, Jyrkk‰l‰	61.58,21.54	2	Hirvi	Naaras	Aikuinen
-\.
+INSERT INTO public.kaato VALUES (1, 5, '2022-09-28', 250, 'Takapellon etel‰p‰‰, Jyrkk‰l‰', '61.58,21.54', 1, 'Hirvi', 'Uros', 'Aikuinen');
+INSERT INTO public.kaato VALUES (2, 6, '2022-09-28', 200, 'Takapellon etel‰p‰‰, Jyrkk‰l‰', '61.58,21.54', 2, 'Hirvi', 'Naaras', 'Aikuinen');
 
 
 --
@@ -784,12 +770,10 @@ COPY public.kaato (kaato_id, jasen_id, kaatopaiva, ruhopaino, paikka_teksti, pai
 -- Data for Name: kasittely; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.kasittely (kasittelyid, kasittely_teksti) FROM stdin;
-1	Seuralle
-2	Seurueelle
-3	Myyntiin
-4	H‰vitet‰‰n
-\.
+INSERT INTO public.kasittely VALUES (1, 'Seuralle');
+INSERT INTO public.kasittely VALUES (2, 'Seurueelle');
+INSERT INTO public.kasittely VALUES (3, 'Myyntiin');
+INSERT INTO public.kasittely VALUES (4, 'H‰vitet‰‰n');
 
 
 --
@@ -798,13 +782,11 @@ COPY public.kasittely (kasittelyid, kasittely_teksti) FROM stdin;
 -- Data for Name: lupa; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.lupa (luparivi_id, seura_id, lupavuosi, elaimen_nimi, sukupuoli, ikaluokka, maara) FROM stdin;
-1	1	2022	Hirvi	Uros	Aikuinen	10
-2	1	2022	Hirvi	Naaras	Aikuinen	15
-3	1	2022	Valkoh‰nt‰peura	Uros	Aikuinen	100
-4	1	2022	Valkoh‰nt‰peura	Naaras	Aikuinen	200
-5	1	2022	Hirvi	Uros	Vasa	20
-\.
+INSERT INTO public.lupa VALUES (1, 1, '2022', 'Hirvi', 'Uros', 'Aikuinen', 10);
+INSERT INTO public.lupa VALUES (2, 1, '2022', 'Hirvi', 'Naaras', 'Aikuinen', 15);
+INSERT INTO public.lupa VALUES (3, 1, '2022', 'Valkoh‰nt‰peura', 'Uros', 'Aikuinen', 100);
+INSERT INTO public.lupa VALUES (4, 1, '2022', 'Valkoh‰nt‰peura', 'Naaras', 'Aikuinen', 200);
+INSERT INTO public.lupa VALUES (5, 1, '2022', 'Hirvi', 'Uros', 'Vasa', 20);
 
 
 --
@@ -813,11 +795,9 @@ COPY public.lupa (luparivi_id, seura_id, lupavuosi, elaimen_nimi, sukupuoli, ika
 -- Data for Name: ruhonosa; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.ruhonosa (osnimitys) FROM stdin;
-Koko
-Puolikas
-Nelj‰nnes
-\.
+INSERT INTO public.ruhonosa VALUES ('Koko');
+INSERT INTO public.ruhonosa VALUES ('Puolikas');
+INSERT INTO public.ruhonosa VALUES ('Nelj‰nnes');
 
 
 --
@@ -826,9 +806,7 @@ Nelj‰nnes
 -- Data for Name: seura; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.seura (seura_id, seuran_nimi, jakeluosoite, postinumero, postitoimipaikka) FROM stdin;
-1	Punaiset hatut ja nen‰t	Keskuskatu 1	23100	Myn‰m‰ki
-\.
+INSERT INTO public.seura VALUES (1, 'Punaiset hatut ja nen‰t', 'Keskuskatu 1', '23100', 'Myn‰m‰ki');
 
 
 --
@@ -837,10 +815,8 @@ COPY public.seura (seura_id, seuran_nimi, jakeluosoite, postinumero, postitoimip
 -- Data for Name: seurue; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.seurue (seurue_id, seura_id, seurueen_nimi, jasen_id) FROM stdin;
-1	1	Seurue1	6
-2	1	Seurue2	1
-\.
+INSERT INTO public.seurue VALUES (1, 1, 'Seurue1', 6);
+INSERT INTO public.seurue VALUES (2, 1, 'Seurue2', 1);
 
 
 --
@@ -849,10 +825,8 @@ COPY public.seurue (seurue_id, seura_id, seurueen_nimi, jasen_id) FROM stdin;
 -- Data for Name: sukupuoli; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.sukupuoli (sukupuoli) FROM stdin;
-Uros
-Naaras
-\.
+INSERT INTO public.sukupuoli VALUES ('Uros');
+INSERT INTO public.sukupuoli VALUES ('Naaras');
 
 
 --
@@ -1215,7 +1189,7 @@ ALTER TABLE ONLY public.lupa
     ADD CONSTRAINT sukupuoli_lupa_fk FOREIGN KEY (sukupuoli) REFERENCES public.sukupuoli(sukupuoli);
 
 
--- Completed on 2022-10-11 15:09:42
+-- Completed on 2022-10-12 09:17:14
 
 --
 -- PostgreSQL database dump complete
