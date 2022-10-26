@@ -25,7 +25,7 @@ try:
 
     # Commit the transaction
     dbaseconnetion.commit()
-    print("Tietue päivitettiin proseduurin avulla")
+    print("Tietue lisättiin proseduurin avulla")
 
    
 # Throw an error if connection or cursor creation fails                                     
