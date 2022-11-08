@@ -13,11 +13,11 @@ port = "5432"
 # Try to establish a connection to DB server
 try:
     # Create a connection object
-    dbaseconnetion = psycopg2.connect(database=database, user=user, password=password,
+    dbaseconnection = psycopg2.connect(database=database, user=user, password=password,
                                       host=host, port=port)
     
     # Create a cursor to execute commands and retrieve result set
-    cursor = dbaseconnetion.cursor()
+    cursor = dbaseconnection.cursor()
     
     # Execute a SQL command to get hunters (jasen)
     command = "SELECT * FROM public.jasen;"
@@ -31,8 +31,8 @@ except(Exception, psycopg2.Error) as e:
 
 # If or if not successfull close the cursor and the connection   
 finally:
-    if (dbaseconnetion):
+    if dbaseconnection:
         cursor.close()
-        dbaseconnetion.close()
+        dbaseconnection.close()
         print("Yhteys tietokantaan katkaistiin")
 
