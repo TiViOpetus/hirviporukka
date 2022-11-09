@@ -56,7 +56,7 @@ class DatabaseOperation():
 
         Args:
             file (str): Name of the JSON settings file
-            connectionArgs (dict): Connection arguments in key-value-pairs
+            connectionArgs (dict): Connection arguments in key-value pairs
         """
         settingsFile = open(file, 'w')
         json.dump(connectionArgs, settingsFile)
@@ -82,7 +82,7 @@ class DatabaseOperation():
         """Selects all rows from the table
 
         Args:
-            connectionArgs (dict): Connection arguments in key-value-pairs
+            connectionArgs (dict): Connection arguments in key-value pairs
             table (str): Name of the table to read from
         """
         server = connectionArgs['server']
@@ -126,6 +126,7 @@ class DatabaseOperation():
             if self.errorCode == 0:
                 dbconnection.close()
 
+    # TODO: Finish writing methods for insert, update and delete
     # Method to insert a row to a given table
 
     def insertRowToTable(self, connectionArgs, sqlClause):
@@ -170,8 +171,11 @@ if __name__ == "__main__":
     dictionary = testOperation.createConnectionArgumentDict(
         'metsastys', 'sovellus', 'Q2werty')
     '''
+    
     print(dictionary)
     '''
+    # FIXME: Correct the line above
+    
     # Save those settings to file
     testOperation.saveDatabaseSettingsToFile('settings.dat', dictionary)
 
