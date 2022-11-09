@@ -5,7 +5,6 @@
 # ---------------------
 
 import sys # Needed for starting the application
-import psycopg2
 from PyQt5.QtWidgets import * # All widgets
 from PyQt5.uic import loadUi
 
@@ -26,13 +25,14 @@ class GroupMainWindow(QMainWindow):
         self.groupInfo = self.groupSummaryTableWidget
         self.sharedMeatInfo = self.meatSharedTableWidget
 
+        '''
         # Database connection parameters
         self.database = "metsastys"
         self.user = "sovellus"
         self.userPassword = "Q2werty"
         self.server = "localhost"
         self.port = "5432"
-
+        '''
         # SIGNALS
 
         # Emit a signal when refresh push button is pressed
@@ -40,35 +40,11 @@ class GroupMainWindow(QMainWindow):
 
     # SLOTS
 
-    # Load data to table Widgets
-    # Try to establish a connection to DB server
+    # This is an agent method to call real functions
     def refreshData(self):
+        pass
         
-        # To avoid Fatal error crashing the app uses try-except-finally structure 
-        try:   
-        # Create a connection object
-            dbaseconnection = psycopg2.connect(database=self.database, user=self.user, password=self.userPassword,
-                                        host=self.server, port=self.port)
         
-            # Create a cursor to execute commands and retrieve result set
-            cursor = dbaseconnection.cursor()
-        
-            # Execute a SQL command to get hunters (jasen)
-            command = "SELECT * FROM public.jaetut_lihat;"
-            cursor.execute(command)
-            result_set = cursor.fetchall()
-            print("Lihaa on jaettu seuraavasti:", result_set)
-
-        # Throw an error if connection or cursor creation fails                                     
-        except(Exception, psycopg2.Error) as e:
-            print("Tietokantayhteydessä tapahtui virhe", e)
-
-        # If or if not successfull close the cursor and the connection   
-        finally:
-            if dbaseconnection:
-                cursor.close()
-                dbaseconnection.close()
-                print("Yhteys tietokantaan katkaistiin")
 
 # APPLICATION CREATION AND STARTING
 # ----------------------------------

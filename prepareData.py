@@ -3,7 +3,7 @@
 
 # LIBRARIES AND MODULES
 # ---------------------
-import pgModule
+# import pgModule
 # from PyQt5.QtWidgets import *  Remove this line when ready
 from PyQt5.QtWidgets import QTableWidgetItem  # For handling a single table cell
 
