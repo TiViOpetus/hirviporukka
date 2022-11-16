@@ -28,11 +28,39 @@ class MultiPageMainWindow(QMainWindow):
 
         # Summary page (Yhteenveto)
         self.summaryRefreshBtn = self.summaryRefreshPushButton
+        self.summaryRefreshBtn.clicked.connect(self.populateSummaryPage) # Signal
         self.summaryMeatSharedTW = self.meatSharedTableWidget
         self.summaryGroupSummaryTW = self.groupSummaryTableWidget
         
         # Kill page (Kaato)
-        
+        self.shotCB = self.shotByComboBox
+        self.shotDate = self.shotDateEdit
+        self.shotLocation = self.locationLineEdit
+        self.shotAnimalCB = self.animalComboBox
+        self.ageGroupCB = self.ageGroupComboBox
+        self.genderCB = self.genderComboBox
+        self.weightLE = self.weightLineEdit
+        self.usageCB = self.usageComboBox
+        self.AddInfoTE = self.AdditionalInfoTextEdit
+        self.saveShotPushBtn = self.saveShotPushButton
+        self.killsKillTW = self.killsKillTableWidget
+
+        # Share page (Lihanjako)
+        self.shareKillsTW = self.shareKillsTableWidget
+        self.shareDE = self.shareDateEdit
+        self.portionCB = self.portionComboBox
+        self.amountLE = self.amountLineEdit
+        self.groupCB = self.groupComboBox
+        self.shareSavePushBtn = self.shareSavePushButton
+
+        # License page (Luvat)
+        self.licenseYearLE = self.licenseYearLineEdit
+        self.licenseAnimalCB = self.licenseAnimalComboBox
+        self.licenseAgeGroupCB = self.licenseAgeGroupComboBox
+        self.licenseGenderCB = self.licenseGenderComboBox
+        self.licenseAmountLE = self.licenseAmountLineEdit
+        self.licenseSavePushBtn = self.licenseSavePushButton
+        self.grantedLicenseTW = self.grantedLicenseTableWidget
         '''
         # Database connection parameters
         self.database = "metsastys"
