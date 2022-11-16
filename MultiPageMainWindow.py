@@ -61,16 +61,13 @@ class MultiPageMainWindow(QMainWindow):
         self.licenseAmountLE = self.licenseAmountLineEdit
         self.licenseSavePushBtn = self.licenseSavePushButton
         self.summaryLicenseTW = self.licenseSummaryTableWidget
-        '''
-        # Database connection parameters
-        self.database = "metsastys"
-        self.user = "sovellus"
-        self.userPassword = "Q2werty"
-        self.server = "localhost"
-        self.port = "5432"
-        '''
-        # Signals other than emitted by UI elements
+        
+        # Signal when a page is opened
+        self.pageTab = self.tabWidget 
+        self.pageTab.currentChanged.connect(self.populateAllPages)
 
+        # Signals other than emitted by UI elements
+        self.populateAllPages()
         
 
     # SLOTS
@@ -89,9 +86,10 @@ class MultiPageMainWindow(QMainWindow):
         databaseOperation2 = pgModule.DatabaseOperation()
         databaseOperation2.getAllRowsFromTable(connectionArguments, 'public.jakoryhma_yhteenveto')
         # TODO: MessageBox if an error occured
-        prepareData.prepareTable(databaseOperation1, self.summaryGroupSummaryTW) 
+        prepareData.prepareTable(databaseOperation2, self.summaryGroupSummaryTW) 
     
-        
+    def populateAllPages(self):
+        self.populateSummaryPage()    
         
 
 # APPLICATION CREATION AND STARTING
