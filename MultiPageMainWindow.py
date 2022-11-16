@@ -41,10 +41,10 @@ class MultiPageMainWindow(QMainWindow):
         self.genderCB = self.genderComboBox
         self.weightLE = self.weightLineEdit
         self.usageCB = self.usageComboBox
-        self.AddInfoTE = self.AdditionalInfoTextEdit
+        self.addInfoTE = self.additionalInfoTextEdit
         self.saveShotPushBtn = self.saveShotPushButton
-        self.killsKillTW = self.killsKillTableWidget
-
+        self.killsKillsTW = self.killsKillsTableWidget
+       
         # Share page (Lihanjako)
         self.shareKillsTW = self.shareKillsTableWidget
         self.shareDE = self.shareDateEdit
@@ -60,7 +60,7 @@ class MultiPageMainWindow(QMainWindow):
         self.licenseGenderCB = self.licenseGenderComboBox
         self.licenseAmountLE = self.licenseAmountLineEdit
         self.licenseSavePushBtn = self.licenseSavePushButton
-        self.grantedLicenseTW = self.grantedLicenseTableWidget
+        self.summaryLicenseTW = self.licenseSummaryTableWidget
         '''
         # Database connection parameters
         self.database = "metsastys"
@@ -69,35 +69,28 @@ class MultiPageMainWindow(QMainWindow):
         self.server = "localhost"
         self.port = "5432"
         '''
-        # SIGNALS
+        # Signals other than emitted by UI elements
 
-        # Emit a signal when refresh push button is pressed
-        self.refreshBtn.clicked.connect(self.agentRefreshData)
+        
 
     # SLOTS
 
-    # Agent method is used for receiving a signal from an UI element
-    def agentRefreshData(self):
+    # A method to populate summaryPage's table widgets
+    def populateSummaryPage(self):
 
         # Read data from view jaetut_lihat
         databaseOperation1 = pgModule.DatabaseOperation()
         connectionArguments = databaseOperation1.readDatabaseSettingsFromFile('settings.dat')
         databaseOperation1.getAllRowsFromTable(connectionArguments, 'public.jaetut_lihat')
-        print(databaseOperation1.detailedMessage)
-        
+        # TODO: MessageBox if an error occured
+        prepareData.prepareTable(databaseOperation1, self.summaryMeatSharedTW)
+
         # Read data from view jakoryhma_yhteenveto, no need to read connection args twice
         databaseOperation2 = pgModule.DatabaseOperation()
         databaseOperation2.getAllRowsFromTable(connectionArguments, 'public.jakoryhma_yhteenveto')
-        print(databaseOperation2.detailedMessage)
-        
-        # Let's call the real method which updates the widget
-        self.refreshData(databaseOperation1, self.sharedMeatInfo)
-        self.refreshData(databaseOperation2, self.groupInfo)
-
-    # This is a function that updates table widgets in the UI
-    # because it does not receive signals; it's not a slot
-    def refreshData(self, databaseOperation, widget):
-        prepareData.prepareTable(databaseOperation, widget)
+        # TODO: MessageBox if an error occured
+        prepareData.prepareTable(databaseOperation1, self.summaryGroupSummaryTW) 
+    
         
         
 
