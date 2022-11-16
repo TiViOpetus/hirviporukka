@@ -676,7 +676,7 @@
        <string>Tallenna</string>
       </property>
      </widget>
-     <widget class="QTableWidget" name="tableWidget">
+     <widget class="QTableWidget" name="licenseSummaryTableWidget">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -776,7 +776,7 @@
   <tabstop>meatSharedTableWidget</tabstop>
   <tabstop>groupSummaryTableWidget</tabstop>
   <tabstop>killsKillsTableWidget</tabstop>
-  <tabstop>tableWidget</tabstop>
+  <tabstop>licenseSummaryTableWidget</tabstop>
   <tabstop>shotByComboBox</tabstop>
   <tabstop>shotDateEdit</tabstop>
   <tabstop>locationLineEdit</tabstop>
