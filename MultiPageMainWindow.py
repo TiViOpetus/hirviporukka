@@ -88,8 +88,21 @@ class MultiPageMainWindow(QMainWindow):
         # TODO: MessageBox if an error occured
         prepareData.prepareTable(databaseOperation2, self.summaryGroupSummaryTW) 
     
+    def populateKillPage(self):
+        # Read data from view kaatoluettelo
+        databaseOperation1 = pgModule.DatabaseOperation()
+        connectionArguments = databaseOperation1.readDatabaseSettingsFromFile('settings.dat')
+        databaseOperation1.getAllRowsFromTable(connectionArguments, 'public.kaatoluettelo')
+        # TODO: MessageBox if an error occured
+        prepareData.prepareTable(databaseOperation1, self.killsKillsTW)
+
+        # Read data from view nimivalinta
+        databaseOperation2 = pgModule.DatabaseOperation()
+        databaseOperation2.getAllRowsFromTable(connectionArguments, 'public.nimivalinta')
+
     def populateAllPages(self):
-        self.populateSummaryPage()    
+        self.populateSummaryPage()
+        self.populateKillPage()    
         
 
 # APPLICATION CREATION AND STARTING

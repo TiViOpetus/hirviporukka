@@ -48,4 +48,27 @@ def prepareTable(resultObject, tableWidget):
 
             rowIndex += 1        
 
-       
+def prepareComboBox(resultObject, comboBox, ixToShow, ixToReturn):
+    """_summary_
+
+    Args:
+        resultObject (DatabaseOperation): Instance of DatabaseOperation class -> errors and results
+        comboBox (QComboBox): Combo box to be updated
+        ixToShow (int): Index of the column to show in the combo box
+        ixToReturn (int): Index of the column containing values of interest
+
+    Returns:
+        list: Value of interest
+    """
+    # Result set is a list of tuples even when there is only one column in the view
+    cBValuesOfInterest = [] # Empty list for values of interest
+    cBItems = []  # Empty list for choices in the combo box
+
+    for result in resultObject.resultset:
+        cBValueOfInterest = result[ixToReturn] # Choose column to use as value of interest
+        resultAsString = str(result[ixToShow]) # Convert element to show in the tuple as a string
+        cBItems.append(resultAsString) # Append it to the choices list of the combo box
+        cBValuesOfInterest.append(cBValueOfInterest) # Append the value to the list
+    
+    comboBox.addItems(cBItems) # Populate the combo box
+    return cBValuesOfInterest       
