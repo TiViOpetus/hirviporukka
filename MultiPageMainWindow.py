@@ -148,27 +148,31 @@ class MultiPageMainWindow(QMainWindow):
 
     def saveShot(self):
         # TODO: Add error handling and msg box when an error occurs
-        shotByChosenItemIx = self.shotByCB.currentIndex()
-        shotById = self.shotByIdList[shotByChosenItemIx]
-        shootingDay = self.shotDateDE.date().toPyDate()
-        shootingPlace = self.shotLocationLE.text()
-        animal = self.shotAnimalCB.currentText()
-        ageGroup = self.shotAgeGroupCB.currentText()
-        gender = self.shotGenderCB.currentText()
-        weight = float(self.shotWeightLE.text())
-        useIx = self.shotUsageCB.currentIndex()
-        use = self.shotUsageIdList[useIx]
-        additionalInfo = self.shotAddInfoTE.toPlainText()
+        shotByChosenItemIx = self.shotByCB.currentIndex() # Row index of the selected row
+        shotById = self.shotByIdList[shotByChosenItemIx] # Id value of the selcted row
+        shootingDay = self.shotDateDE.date().toPyDate() # Python date is in ISO format
+        shootingPlace = self.shotLocationLE.text() # Text value of line edit
+        animal = self.shotAnimalCB.currentText() # Selected value of the combo box 
+        ageGroup = self.shotAgeGroupCB.currentText() # Selected value of the combo box
+        gender = self.shotGenderCB.currentText() # Selected value of the combo box
+        weight = float(self.shotWeightLE.text()) # Convert line edit value to float (real in the DB)
+        useIx = self.shotUsageCB.currentIndex() # Row index of the selected row
+        use = self.shotUsageIdList[useIx] # Id value of the selcted row
+        additionalInfo = self.shotAddInfoTE.toPlainText() # Convert multiline text edit to plain text
 
         # Insert data into kaato table
-
+        # Create a SQL clause to insert element values to the DB
         sqlClauseBeginning = "INSERT INTO public.kaato(jasen_id, kaatopaiva, ruhopaino, paikka_teksti, kasittelyid, elaimen_nimi, sukupuoli, ikaluokka, lisatieto) VALUES("
         sqlClauseValues = f"{shotById}, '{shootingDay}', {weight}, '{shootingPlace}', {use}, '{animal}', '{gender}', '{ageGroup}', '{additionalInfo}'"
         sqlClauseEnd = ");"
         sqlClause = sqlClauseBeginning + sqlClauseValues + sqlClauseEnd
-        print(sqlClause)
+        print(sqlClause) # FIXME: Remove this line in pruduction
+
+        # create DatabaseOperation object to execute the SQL clause
         databaseOperation = pgModule.DatabaseOperation()
         databaseOperation.insertRowToTable(self.connectionArguments, sqlClause)
+
+        # TODO: Add refresh method to update kaadot table widget
         
 
 # APPLICATION CREATION AND STARTING
@@ -182,7 +186,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
 
-    # Create the Main Window object from FormWithTable Class and show it on the screen
+    # Create the Main Window object from MultiPageMainWindowe Class and show it on the screen
     appWindow = MultiPageMainWindow()
-    appWindow.show()  # This can also be included in the FormWithTable class
+    appWindow.show()  # This can also be included in the MultiPageMainWindow class
     sys.exit(app.exec_())
