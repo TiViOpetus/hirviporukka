@@ -137,7 +137,40 @@ class DatabaseOperation():
             sqlClause (str): Insert clause
         """
 
-        pass
+        server = connectionArgs['server']
+        port = connectionArgs['port']
+        database = connectionArgs['database']
+        user = connectionArgs['user']
+        password = connectionArgs['password']
+
+        try:
+            # Connect to the database and set error parameters
+            dbconnection = psycopg2.connect(
+                database=database, user=user, password=password, host=server, port=port)
+            self.errorCode = 0
+            self.errorMessage = 'Yhdistettiin tietokantaan'
+            self.detailedMessage = 'Connected to database successfully'
+
+            # Create a cursor to retrieve data from the table
+            with dbconnection.cursor() as cursor:
+                cursor.execute(sqlClause)
+
+                # Set error values
+                self.errorCode = 0
+                self.errorMessage = 'Lisättiin tietue onnistuneesti'
+                self.detailedMessage = 'Inserting into table was successful'
+                dbconnection.commit()
+                
+        except (Exception, psycopg2.Error )as error:
+
+            # Set error values
+            self.errorCode = 1
+            self.errorMessage = 'Tietokannan käsittely ei onnistunut'
+            self.detailedMessage = str(error)
+
+        finally:
+            if self.errorCode == 0:
+                dbconnection.close()
 
     # Method to update a table
     def updateTable(self, connectionArgs, table, column, limit):
