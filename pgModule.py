@@ -164,7 +164,7 @@ class DatabaseOperation():
         except (Exception, psycopg2.Error )as error:
 
             # Set error values 
-            self.errorCode = 1 # TODO: Design set of error codes to use with this module
+            self.errorCode = 1 # TODO: Design a set of error codes to use with this module
             self.errorMessage = 'Tietokannan käsittely ei onnistunut'
             self.detailedMessage = str(error)
 
