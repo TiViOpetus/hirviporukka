@@ -49,7 +49,7 @@ def prepareTable(resultObject, tableWidget):
             rowIndex += 1        
 
 def prepareComboBox(resultObject, comboBox, ixToShow, ixToReturn):
-    """_summary_
+    """Prepares data to be shown in a combo box
 
     Args:
         resultObject (DatabaseOperation): Instance of DatabaseOperation class -> errors and results
@@ -64,7 +64,7 @@ def prepareComboBox(resultObject, comboBox, ixToShow, ixToReturn):
     cBValuesOfInterest = [] # Empty list for values of interest
     cBItems = []  # Empty list for choices in the combo box
 
-    for result in resultObject.resultset:
+    for result in resultObject.resultSet:
         cBValueOfInterest = result[ixToReturn] # Choose column to use as value of interest
         resultAsString = str(result[ixToShow]) # Convert element to show in the tuple as a string
         cBItems.append(resultAsString) # Append it to the choices list of the combo box
