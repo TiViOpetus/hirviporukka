@@ -24,6 +24,11 @@ class MultiPageMainWindow(QMainWindow):
         # Create an UI from the ui file
         loadUi('MultiPageMainWindow.ui', self)
 
+        # Read database connection arguments from the settings file
+        databaseOperation = pgModule.DatabaseOperation()
+        self.connectionArguments = databaseOperation.readDatabaseSettingsFromFile('settings.dat')
+        
+
         # UI ELEMENTS TO PROPERTIES
         # -------------------------
 
@@ -80,17 +85,16 @@ class MultiPageMainWindow(QMainWindow):
 
         # Read data from view jaetut_lihat
         databaseOperation1 = pgModule.DatabaseOperation()
-        connectionArguments = databaseOperation1.readDatabaseSettingsFromFile(
-            'settings.dat')
+        
         databaseOperation1.getAllRowsFromTable(
-            connectionArguments, 'public.jaetut_lihat')
+            self.connectionArguments, 'public.jaetut_lihat')
         # TODO: MessageBox if an error occured
         prepareData.prepareTable(databaseOperation1, self.summaryMeatSharedTW)
 
         # Read data from view jakoryhma_yhteenveto, no need to read connection args twice
         databaseOperation2 = pgModule.DatabaseOperation()
         databaseOperation2.getAllRowsFromTable(
-            connectionArguments, 'public.jakoryhma_yhteenveto')
+            self.connectionArguments, 'public.jakoryhma_yhteenveto')
         # TODO: MessageBox if an error occured
         prepareData.prepareTable(
             databaseOperation2, self.summaryGroupSummaryTW)
@@ -98,45 +102,43 @@ class MultiPageMainWindow(QMainWindow):
     def populateKillPage(self):
         # Read data from view kaatoluettelo
         databaseOperation1 = pgModule.DatabaseOperation()
-        connectionArguments = databaseOperation1.readDatabaseSettingsFromFile(
-            'settings.dat')
         databaseOperation1.getAllRowsFromTable(
-            connectionArguments, 'public.kaatoluettelo')
+            self.connectionArguments, 'public.kaatoluettelo')
         # TODO: MessageBox if an error occured
         prepareData.prepareTable(databaseOperation1, self.shotKillsTW)
 
         # Read data from view nimivalinta
         databaseOperation2 = pgModule.DatabaseOperation()
         databaseOperation2.getAllRowsFromTable(
-            connectionArguments, 'public.nimivalinta')
+            self.connectionArguments, 'public.nimivalinta')
         self.shotByIdList = prepareData.prepareComboBox(
             databaseOperation2, self.shotByCB, 1, 0)
 
         # Read data from table elain and populate the combo box
         databaseOperation3 = pgModule.DatabaseOperation()
         databaseOperation3.getAllRowsFromTable(
-            connectionArguments, 'public.elain')
+            self.connectionArguments, 'public.elain')
         self.shotAnimalText = prepareData.prepareComboBox(
             databaseOperation3, self.shotAnimalCB, 0, 0)
 
         # Read data from table aikuinenvasa and populate the combo box
         databaseOperation4 = pgModule.DatabaseOperation()
         databaseOperation4.getAllRowsFromTable(
-            connectionArguments, 'public.aikuinenvasa')
+            self.connectionArguments, 'public.aikuinenvasa')
         self.shotAgeGroupText = prepareData.prepareComboBox(
             databaseOperation4, self.shotAgeGroupCB, 0, 0)
 
         # Read data from table sukupuoli and populate the combo box
         databaseOperation5 = pgModule.DatabaseOperation()
         databaseOperation5.getAllRowsFromTable(
-            connectionArguments, 'public.sukupuoli')
+            self.connectionArguments, 'public.sukupuoli')
         self.shotGenderText = prepareData.prepareComboBox(
             databaseOperation5, self.shotGenderCB, 0, 0)
 
         # Read data from table kasittely
         databaseOperation6 = pgModule.DatabaseOperation()
         databaseOperation6.getAllRowsFromTable(
-            connectionArguments, 'public.kasittely')
+            self.connectionArguments, 'public.kasittely')
         self.shotUsageIdList = prepareData.prepareComboBox(
             databaseOperation6, self.shotUsageCB, 1, 0)
 
@@ -161,10 +163,12 @@ class MultiPageMainWindow(QMainWindow):
         # Insert data into kaato table
 
         sqlClauseBeginning = "INSERT INTO public.kaato(jasen_id, kaatopaiva, ruhopaino, paikka_teksti, kasittelyid, elaimen_nimi, sukupuoli, ikaluokka, lisatieto) VALUES("
-        sqlClauseValues = f"{shotById}, {shootingDay}, {weight}, '{shootingPlace}', {use}, '{animal}', '{gender}', '{ageGroup}', '{additionalInfo}'"
+        sqlClauseValues = f"{shotById}, '{shootingDay}', {weight}, '{shootingPlace}', {use}, '{animal}', '{gender}', '{ageGroup}', '{additionalInfo}'"
         sqlClauseEnd = ");"
         sqlClause = sqlClauseBeginning + sqlClauseValues + sqlClauseEnd
         print(sqlClause)
+        databaseOperation = pgModule.DatabaseOperation()
+        databaseOperation.insertRowToTable(self.connectionArguments, sqlClause)
         
 
 # APPLICATION CREATION AND STARTING
