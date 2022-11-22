@@ -149,16 +149,16 @@ class MultiPageMainWindow(QMainWindow):
     def saveShot(self):
         # TODO: Add error handling and msg box when an error occurs
         shotByChosenItemIx = self.shotByCB.currentIndex() # Row index of the selected row
-        shotById = self.shotByIdList[shotByChosenItemIx] # Id value of the selcted row
+        shotById = self.shotByIdList[shotByChosenItemIx] # Id value of the selected row
         shootingDay = self.shotDateDE.date().toPyDate() # Python date is in ISO format
         shootingPlace = self.shotLocationLE.text() # Text value of line edit
         animal = self.shotAnimalCB.currentText() # Selected value of the combo box 
         ageGroup = self.shotAgeGroupCB.currentText() # Selected value of the combo box
         gender = self.shotGenderCB.currentText() # Selected value of the combo box
-        weight = float(self.shotWeightLE.text()) # Convert line edit value to float (real in the DB)
+        weight = float(self.shotWeightLE.text()) # Convert line edit value into float (real in the DB)
         useIx = self.shotUsageCB.currentIndex() # Row index of the selected row
-        use = self.shotUsageIdList[useIx] # Id value of the selcted row
-        additionalInfo = self.shotAddInfoTE.toPlainText() # Convert multiline text edit to plain text
+        use = self.shotUsageIdList[useIx] # Id value of the selected row
+        additionalInfo = self.shotAddInfoTE.toPlainText() # Convert multiline text edit into plain text
 
         # Insert data into kaato table
         # Create a SQL clause to insert element values to the DB
