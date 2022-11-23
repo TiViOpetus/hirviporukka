@@ -271,7 +271,7 @@
        </rect>
       </property>
       <property name="text">
-       <string>Paino</string>
+       <string>Paino (kg)</string>
       </property>
      </widget>
      <widget class="QLabel" name="shotByLabel_6">
