@@ -224,11 +224,16 @@ class MultiPageMainWindow(QMainWindow):
             self.shotUsageIdList = prepareData.prepareComboBox(
             databaseOperation6, self.shotUsageCB, 1, 0)
 
+    # TODO: Make populate share page method
+
+    # TODO: Make populate license page method
+
     def populateAllPages(self):
         self.populateSummaryPage()
         self.populateKillPage()
 
     def saveShot(self):
+        errorOccurred = False
         try:
             shotByChosenItemIx = self.shotByCB.currentIndex()  # Row index of the selected row
             # Id value of the selected row
@@ -254,13 +259,16 @@ class MultiPageMainWindow(QMainWindow):
             sqlClauseEnd = ");"
             sqlClause = sqlClauseBeginning + sqlClauseValues + sqlClauseEnd
 
-        except:
-            self.alert('Virheellinen syöte', 'Tarkista antamasi tiedot', 'jotain meni väärin','hippopotamus')
-        print(sqlClause)  # FIXME: Remove this line in production
-
-        # create DatabaseOperation object to execute the SQL clause
-        databaseOperation = pgModule.DatabaseOperation()
-        databaseOperation.insertRowToTable(self.connectionArguments, sqlClause)
+        except Exception as error:
+            errorOccurred = True
+            self.alert('Virheellinen syöte', 'Tarkista antamasi tiedot', 'Tyyppivirhe', str(error))
+        
+        finally:
+            if errorOccurred == False:
+                    
+                # create DatabaseOperation object to execute the SQL clause
+                databaseOperation = pgModule.DatabaseOperation()
+                databaseOperation.insertRowToTable(self.connectionArguments, sqlClause)
         
         if databaseOperation.errorCode != 0:
             self.alert('Vakava virhe', 'Tietokantaoperaatio epäonnistui',
