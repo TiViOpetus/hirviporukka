@@ -170,8 +170,8 @@ class DatabaseOperation():
             if self.errorCode == 0:
                 dbconnection.close()
 
-    # TODO: Method to update a table
-    def updateTable(self, connectionArgs, table, column, limit):
+    # FIXME: Method to update a table -> how to build the limiting
+    def updateTable(self, connectionArgs, table, column, value, limit):
         """Updates a table
 
         Args:
@@ -196,7 +196,7 @@ class DatabaseOperation():
 
             # Create a cursor to retrieve data from the table
             with dbconnection.cursor() as cursor:
-                sqlClause = f'UPDATE {table} SET {column} WHERE {limit}'
+                sqlClause = f'UPDATE {table} SET {column} = {value} WHERE {limit}'
                 cursor.execute(sqlClause)
 
                 # Set error values
@@ -242,12 +242,13 @@ class DatabaseOperation():
             # Create a cursor to retrieve data from the table
             with dbconnection.cursor() as cursor:
                 sqlClause = f'DELETE FROM {table} WHERE {limit}'
+                print(sqlClause)
                 cursor.execute(sqlClause)
 
                 # Set error values
                 self.errorCode = 0
-                self.errorMessage = 'Lisättiin tietue onnistuneesti'
-                self.detailedMessage = 'Inserting into table was successful'
+                self.errorMessage = 'Poisto suoritteettiin onnistuneesti'
+                self.detailedMessage = 'Delete operation was successful'
                 dbconnection.commit()
                 
         except (Exception, psycopg2.Error )as error:
@@ -318,9 +319,20 @@ if __name__ == "__main__":
     testOperation.saveDatabaseSettingsToFile('settings.dat', dictionary)
 
     # Read settings back from the file
-    readedSettings = testOperation.readDatabaseSettingsFromFile('settings.dat')
+    settingsRead = testOperation.readDatabaseSettingsFromFile('settings.dat')
 
-    # print(readedSettings)
-    testOperation.getAllRowsFromTable(readedSettings, 'public.jasen')
+    # Get all rows from test table
+    testOperation.getAllRowsFromTable(settingsRead, 'public.pgmodule_test')
 
     print(testOperation.resultSet)
+
+    # Test insert operation with a SQL clause
+    sqlClause = "INSERT INTO public.pgmodule_test(etunimi, sukunimi, ika) VALUES('Jaana', 'Janttari', 17);"
+    print(sqlClause)
+    testOperation.insertRowToTable(settingsRead, sqlClause)
+    print(testOperation.detailedMessage)
+
+    # Test delete operation
+    limit = 'id = 3'
+    testOperation.deleteFromTable(settingsRead,'public.pgmodule_test', limit)
+    print(testOperation.detailedMessage)
