@@ -196,7 +196,7 @@ class DatabaseOperation():
 
             # Create a cursor to retrieve data from the table
             with dbconnection.cursor() as cursor:
-                sqlClause = f'UPDATE {table} SET {column} WHRERE {limit}'
+                sqlClause = f'UPDATE {table} SET {column} WHERE {limit}'
                 cursor.execute(sqlClause)
 
                 # Set error values
