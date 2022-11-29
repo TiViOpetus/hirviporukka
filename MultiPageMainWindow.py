@@ -259,26 +259,31 @@ class MultiPageMainWindow(QMainWindow):
             sqlClauseEnd = ");"
             sqlClause = sqlClauseBeginning + sqlClauseValues + sqlClauseEnd
 
+        # Check for conversion errors
         except Exception as error:
             errorOccurred = True
             self.alert('Virheellinen syöte', 'Tarkista antamasi tiedot', 'Tyyppivirhe', str(error))
         
         finally:
+            # Check if conversions from text are successful
             if errorOccurred == False:
                     
-                # create DatabaseOperation object to execute the SQL clause
+                # Create DatabaseOperation object to execute the SQL clause
                 databaseOperation = pgModule.DatabaseOperation()
                 databaseOperation.insertRowToTable(self.connectionArguments, sqlClause)
-        
-        if databaseOperation.errorCode != 0:
-            self.alert('Vakava virhe', 'Tietokantaoperaatio epäonnistui',
+
+                # Check if there is any db related errors (error handling in pgMolule)
+                if databaseOperation.errorCode != 0:
+                    self.alert('Vakava virhe', 'Tietokantaoperaatio epäonnistui',
                        databaseOperation.errorMessage, databaseOperation.detailedMessage)
-        else:
-            # Update the page to show new data and clear previous data from elements
-            self.populateKillPage()
-            self.shotLocationLE.clear()
-            self.shotWeightLE.clear()
-            self.shotAddInfoTE.clear()
+                
+                # If no errors: update page and clear previous data data from elements
+                else:
+                    
+                    self.populateKillPage()
+                    self.shotLocationLE.clear()
+                    self.shotWeightLE.clear()
+                    self.shotAddInfoTE.clear()
 
 # APPLICATION CREATION AND STARTING
 # ----------------------------------
