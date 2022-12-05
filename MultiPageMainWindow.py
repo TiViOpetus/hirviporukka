@@ -5,12 +5,15 @@
 # ---------------------
 
 import sys  # Needed for starting the application
+import plotly
 from PyQt5.QtWidgets import *  # All widgets
+from PyQt5 import QtWebEngineWidgets # For showing html content
 from PyQt5.uic import loadUi
 from PyQt5.QtCore import *  # FIXME: Everything,  change to individual components
 from datetime import date
 import pgModule
 import prepareData
+import figures
 
 # CLASS DEFINITIONS FOR THE APP
 # -----------------------------
@@ -50,6 +53,10 @@ class MultiPageMainWindow(QMainWindow):
             self.populateSummaryPage)  # Signal
         self.summaryMeatSharedTW = self.meatSharedTableWidget
         self.summaryGroupSummaryTW = self.groupSummaryTableWidget
+        self.sankeyWebV = self.sankeyWebEngineView
+        #TODO: Try to set column widths to fill the space available
+        # meatSharedTWHeader = self.summaryMeatSharedTW.horizontalHeader()
+        # meatSharedTWHeader.setSectionResizeMode(0, QHeaderView.Stretch)
 
         # Kill page (Kaato)
         self.shotByCB = self.shotByComboBox
@@ -64,6 +71,7 @@ class MultiPageMainWindow(QMainWindow):
         self.shotSavePushBtn = self.saveShotPushButton
         self.shotSavePushBtn.clicked.connect(self.saveShot)  # Signal
         self.shotKillsTW = self.killsKillsTableWidget
+        
 
         # Share page (Lihanjako)
         self.shareKillsTW = self.shareKillsTableWidget
@@ -137,6 +145,12 @@ class MultiPageMainWindow(QMainWindow):
         databaseOperation2 = pgModule.DatabaseOperation()
         databaseOperation2.getAllRowsFromTable(
             self.connectionArguments, 'public.jakoryhma_yhteenveto')
+
+        #figure = figures.createSankeyChart()
+        figure = figures.testChart()
+        plotly.offline.plot(figure, filename='meatstreams.html') # Write the chart to a html file
+        url = QUrl('file:///meatstreams.html') # Create a relative url to the file
+        self.sankeyWebV.load(url) # Load it into the web view element
 
         # Check if error has occurred
         if databaseOperation2.errorCode != 0:
@@ -229,8 +243,17 @@ class MultiPageMainWindow(QMainWindow):
     # TODO: Make populate license page method
 
     def populateAllPages(self):
-        self.populateSummaryPage()
-        self.populateKillPage()
+        
+        testDBConnection = pgModule.DatabaseOperation()
+        connectionArgs = testDBConnection.readDatabaseSettingsFromFile('settings.dat')
+        testDBConnection.testConnection(connectionArgs)
+        if testDBConnection.errorCode == 0:
+            self.populateSummaryPage()
+            self.populateKillPage()
+        else:
+            self.alert('Tarkista tietokanta-asetukset', 'settings.dat-tiedostosta','no further information','no further information')
+        
+        
 
     def saveShot(self):
         errorOccurred = False
