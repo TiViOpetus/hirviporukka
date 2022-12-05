@@ -4,6 +4,7 @@
 # LIBRARIES AND MODULES
 # ----------------------
 import plotly.graph_objects as charts
+import plotly.offline as offline
 
 # FUNCTIONS
 
@@ -17,7 +18,6 @@ def testChart():
     sourceLabels = ['Hirvi', 'Peura'] # Where the meat is coming from
     targetLabels = ['Ryhmä 1', 'Ryhmä 2', 'Ryhmä 3'] # What group has received meat
     allLabels = sourceLabels + targetLabels # All labels for the chart in a single list
-    print(allLabels)
 
     # Simulation Data (list of tuples), in relity the data should come from the database view 
     dBdata = [('Hirvi', 'Ryhmä 1', 100),
@@ -35,8 +35,6 @@ def testChart():
     # All label colors in a single list for the chart
     allColors = sourceNodeColors + targetNodeColors 
 
-    rows = len(dBdata)
-    print(rows)
     # Empty lists for label indexses and values
     sankeySources = []
     sankeyTargets = []
@@ -53,7 +51,6 @@ def testChart():
         sankeyTargets.append(targetIx)
         sankeyValues.append(tupleValue)
 
-    print(sankeySources)
 
     figure = charts.Figure(data=[charts.Sankey(
         node = dict(
@@ -140,4 +137,13 @@ def createSankeyChart(dBData, sourceColors, targetColors, linkCololors, heading)
     figure.update_layout(title_text=heading, font_size=16)
     # figure.update_traces(orientation='v', selector=dict(type='sankey'))
     return figure
+
+def createOfflineFile(figure, htmlFileName):
+    """Creates a html file from the chart for offline use
+
+    Args:
+        figure (obj): The chart to bring offline
+        htmlFileName (str): name of the file to save into disk
+    """
+    offline.plot(figure, filename= htmlFileName) # Write the chart to a html file
     
