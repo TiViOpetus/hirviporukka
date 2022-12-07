@@ -14,7 +14,9 @@ def testChart():
     Returns:
         obj: plotly figure object
     """
+    # HTML file for saving the plot when offline
     # Labels for the sankey chart (from a view)
+    htmlFileName = 'meatstreams.html'
     sourceLabels = ['Hirvi', 'Peura'] # Where the meat is coming from
     targetLabels = ['Ryhmä 1', 'Ryhmä 2', 'Ryhmä 3'] # What group has received meat
     allLabels = sourceLabels + targetLabels # All labels for the chart in a single list
@@ -69,7 +71,7 @@ def testChart():
 
     figure.update_layout(title_text="Lihanjakotilanne", font_size=16)
     # figure.update_traces(orientation='v', selector=dict(type='sankey'))
-    return figure
+    offline.plot(figure, filename= htmlFileName) # Write the chart to a html file
     
 
 def createSankeyChart(dBData, sourceColors, targetColors, linkCololors, heading):
