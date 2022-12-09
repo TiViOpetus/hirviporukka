@@ -13,6 +13,7 @@ from datetime import date
 import pgModule
 import prepareData
 import figures
+import dialogs
 
 # CLASS DEFINITIONS FOR THE APP
 # -----------------------------
@@ -44,7 +45,8 @@ class MultiPageMainWindow(QMainWindow):
         # Set current date when the app starts
         self.currentDate = date.today()
 
-
+        # TODO: Add actions here
+        # self.actionTietokanta.triggered.connect(self.openDBSettingsDialog)
 
         # Summary page (Yhteenveto)
         self.summaryRefreshBtn = self.summaryRefreshPushButton
